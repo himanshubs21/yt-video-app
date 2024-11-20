@@ -1,0 +1,35 @@
+#!/bin/bash
+# Update the system and install required packages
+sudo yum update -y
+sudo yum install -y python3 git
+
+# Install pip and virtualenv
+sudo python3 -m ensurepip --upgrade
+sudo pip3 install --upgrade pip
+sudo pip3 install virtualenv
+
+# Create a project directory
+cd /home/ec2-user
+mkdir flask-app
+cd flask-app
+
+# Clone your GitHub repository
+git clone https://github.com/himanshubs21/yt-video-app.git .
+
+# Navigate to the Flask app directory
+cd flask-app
+
+# Set up a virtual environment
+virtualenv venv
+source venv/bin/activate
+
+# Install project dependencies
+pip install -r requirements.txt
+
+# Set Flask environment variables
+export FLASK_APP=app.py
+export FLASK_RUN_HOST=0.0.0.0
+export FLASK_RUN_PORT=80
+
+# Start the Flask application
+nohup flask run --host=0.0.0.0 --port=80 &
